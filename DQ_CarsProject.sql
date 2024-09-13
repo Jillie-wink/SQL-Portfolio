@@ -34,8 +34,8 @@ productsPriorityRestock AS (
 	  FROM	productsLowStock AS pls
 	  JOIN	productsPerformance AS pp
 	    ON	pls.productCode = pp.productCode
-	 WHERE	pls.productCode IN    (SELECT 	productCode
-					 FROM	productsPerformance)
+	 WHERE	pls.productCode IN      (SELECT	productCode
+					   FROM	productsPerformance)
       ORDER BY	pls.productCode
 ),
 
