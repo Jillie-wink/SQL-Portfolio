@@ -3,13 +3,12 @@ WITH
 --where demand is SUM(quantityOrdered), and supply is quantityInStock.
 --Then, narrowing down to 10 products with highest relative demand (which would be products that are in low stock).
 productsLowStock AS (
-	SELECT	*
-	  FROM	(SELECT	p.productCode, p.productName, p.productLine,
-			ROUND(SUM(od.quantityOrdered)*1.0/p.quantityInStock*1.0, 2) AS relativeDemand
-		   FROM	orderdetails AS od
-		   JOIN	products AS p
-		     ON	od.ProductCode = p.productCode
-	       GROUP BY	p.productCode)
+	SELECT	p.productCode, p.productName, p.productLine,
+		ROUND(SUM(od.quantityOrdered)*1.0/p.quantityInStock*1.0, 2) AS relativeDemand
+	  FROM	orderdetails AS od
+	  JOIN	products AS p
+	    ON	od.ProductCode = p.productCode
+      GROUP BY	p.productCode
       ORDER BY	relativeDemand
 	 LIMIT 	10
 ),
@@ -34,8 +33,8 @@ productsPriorityRestock AS (
 	  FROM	productsLowStock AS pls
 	  JOIN	productsPerformance AS pp
 	    ON	pls.productCode = pp.productCode
-	 WHERE	pls.productCode IN      (SELECT	productCode
-					   FROM	productsPerformance)
+	 WHERE	pls.productCode IN (SELECT  productCode
+				      FROM  productsPerformance)
       ORDER BY	pls.productCode
 ),
 
