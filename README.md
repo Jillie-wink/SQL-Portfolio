@@ -14,9 +14,10 @@ Attached is the SQL file I created to analyze product and customer data.</p>
 <div></div>
 <h2>Product Analysis</h2>
 <ol>
-  <li>Which products should we order more or less of? </li>
+  <li>Which products should we order more of? </li>
+  <li>Which products should we order less of? </li>
   <li>What are our 10 highest performing products?</li>
-  <li>Which 10  products should we prioritize restocking?</li>
+  <li>Which 10 products should we prioritize restocking?</li>
 </ol>
 <div></div>
 <h2>Customer Analysis</h2>
