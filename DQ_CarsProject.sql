@@ -1,8 +1,7 @@
 WITH
 --Q1: Calculating relative demand of a product as (demand/supply),
 --where demand is SUM(quantityOrdered), and supply is quantityInStock.
---Then, displaying products with more orders than currently stocked
---and products with twice as much stock as current orders.
+--Then, displaying products with more orders than stock.
 productsRelativeDemand AS (
 	SELECT	p.productCode, p.productName, p.productLine,
 		ROUND(SUM(od.quantityOrdered)*1.0/p.quantityInStock*1.0, 2) AS relativeDemand
@@ -15,17 +14,18 @@ productsUnderStocked AS (
 	SELECT	productCode, productName, relativeDemand
 	  FROM	productsRelativeDemand
 	 WHERE	relativeDemand > 1.0
-      ORDER BY	relativeDemand
+      ORDER BY	relativeDemand DESC
 ),
+	
+--Q2:Displaying products with 3 times more supply than demand.
 productsOverStocked AS (
 	SELECT	productCode, productName, relativeDemand
 	  FROM	productsRelativeDemand
-	 WHERE	relativeDemand < 0.5
-      ORDER BY	relativeDemand DESC
-
+	 WHERE	relativeDemand < 0.33
+      ORDER BY	relativeDemand
 ),
 
---Q2: Calculating product performance as (demand*profit),
+--Q3: Calculating product performance as (demand*profit),
 --where demand is SUM(quantityOrdered) and profit is (priceEach - buyPrice).
 --Then, narrowing down to 10 products with highest product performance.
 productsPerformance AS (
@@ -39,7 +39,7 @@ productsPerformance AS (
 	 LIMIT	10
 ),
 
---Q3: Calculating priority restock according to productPerformance.
+--Q4: Calculating priority restock according to productPerformance.
 --Then, listing 10 highest performing products alongside their relativeDemand
 productsPriorityRestock AS (
 	SELECT	prd.productCode, prd.productName, prd.productLine, prd.relativeDemand, pp.productPerformance
@@ -51,7 +51,7 @@ productsPriorityRestock AS (
       ORDER BY	prd.productCode
 ),
 
---Q4: Calculating profit per customer as SUM(profit) from items ordered.
+--Q5: Calculating profit per customer as SUM(profit) from items ordered.
 profitsPerCustomer AS (
 	SELECT	o.customerNumber, SUM(od.quantityOrdered * (od.priceEach - p.buyPrice)) AS profit
 	  FROM	products AS p
@@ -64,9 +64,9 @@ profitsPerCustomer AS (
       GROUP BY	o.customerNumber
 ),
 
---Q5: Five customers who produce most profit.
+--Q6: Five customers who produce most profit.
 mostEngagedCustomers AS (
-	SELECT	c.contactLastName, c.contactFirstName, c.city, c.country, ppc.profit]
+	SELECT	c.contactLastName, c.contactFirstName, c.city, c.country, ppc.profit
 	  FROM	customers AS c
 	  JOIN	profitsPerCustomer AS ppc
 	    ON	c.customerNumber = ppc.customerNumber
@@ -74,7 +74,7 @@ mostEngagedCustomers AS (
 	 LIMIT	5
 ),
 
---Q6: Five customers who produce least profit.
+--Q7: Five customers who produce least profit.
 leastEngagedCustomers AS (
 	SELECT	c.contactLastName, c.contactFirstName, c.city, c.country, ppc.profit
 	  FROM	customers AS c
@@ -84,7 +84,7 @@ leastEngagedCustomers AS (
 	 LIMIT	5
 ),
 
---Q7: What is the average lifetime value of a customer?
+--Q8: What is the average lifetime value of a customer?
 avgCustomerLTV AS (
 	SELECT	ROUND(AVG(profit), 2) AS avgCustomerProfit
 	  FROM	profitsPerCustomer
