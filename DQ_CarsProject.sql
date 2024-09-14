@@ -1,7 +1,8 @@
 WITH
 --Q1: Calculating relative demand of a product as (demand/supply),
 --where demand is SUM(quantityOrdered), and supply is quantityInStock.
---Then, narrowing down to 10 products with highest and lowest relative demand.
+--Then, displaying products with more orders than currently stocked
+--and products with twice as much stock as current orders.
 productsRelativeDemand AS (
 	SELECT	p.productCode, p.productName, p.productLine,
 		ROUND(SUM(od.quantityOrdered)*1.0/p.quantityInStock*1.0, 2) AS relativeDemand
@@ -13,14 +14,15 @@ productsRelativeDemand AS (
 productsUnderStocked AS (
 	SELECT	productCode, productName, relativeDemand
 	  FROM	productsRelativeDemand
+	 WHERE	relativeDemand > 1.0
       ORDER BY	relativeDemand
-	 LIMIT	10
 ),
 productsOverStocked AS (
 	SELECT	productCode, productName, relativeDemand
 	  FROM	productsRelativeDemand
+	 WHERE	relativeDemand < 0.5
       ORDER BY	relativeDemand DESC
-	 LIMIT	10
+
 ),
 
 --Q2: Calculating product performance as (demand*profit),
