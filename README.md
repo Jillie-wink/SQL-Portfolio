@@ -30,7 +30,6 @@ Attached is the SQL file I created to analyze product and customer data.</p>
 <div></div>
 <h2>Data Visualization</h2>
 <h4>Q1: Which products should we order more of?</h4>
-<p>Where Relative Demand is the result of (total orders)/(total in stock), per product</p>
 
 | **Product Code** | **Product Name** | **Relative Demand** |
 |---|---|---|
