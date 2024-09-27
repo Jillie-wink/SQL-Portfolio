@@ -1,27 +1,34 @@
 WITH
---Q1: Calculating relative demand of a product as (demand/supply),
+--Q1: Which products should we order more of? 
+--Calculate relative demand of a product as (demand/supply),
 --where demand is SUM(quantityOrdered), and supply is quantityInStock.
---Then, displaying products with more orders than stock.
 productsRelativeDemand AS (
-	SELECT	p.productCode, p.productName, p.productLine,
+	SELECT	p.productCode, p.productName,
 		ROUND(SUM(od.quantityOrdered)*1.0/p.quantityInStock*1.0, 2) AS relativeDemand
 	  FROM	orderdetails AS od
 	  JOIN	products AS p
 	    ON	od.ProductCode = p.productCode
       GROUP BY	p.productCode
 ),
+--Produce table displaying all products in order of highest in demand
 productsUnderStocked AS (
-	SELECT	productCode, productName, relativeDemand
+	SELECT	*
 	  FROM	productsRelativeDemand
-	 WHERE	relativeDemand > 1.0
+      ORDER BY	relativeDemand DESC
+),
+--Produce table displaying products with more demand than supply
+productsNotStocked AS (
+	SELECT	*
+	  FROM	productsRelativeDemand
+	 WHERE  relativeDemand > 1.0
       ORDER BY	relativeDemand DESC
 ),
 	
---Q2:Displaying products with 3 times more supply than demand.
+--Q2: Which products should we order less of?
+--Produce table displaying all products in order of lowest in demand
 productsOverStocked AS (
-	SELECT	productCode, productName, relativeDemand
+	SELECT	*
 	  FROM	productsRelativeDemand
-	 WHERE	relativeDemand < 0.33
       ORDER BY	relativeDemand
 ),
 
