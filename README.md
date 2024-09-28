@@ -21,7 +21,7 @@ Attached is the SQL file I created to analyze product and customer data.</p>
 </ol>
 <div></div>
 <h2>Customer Analysis</h2>
-<ol start=4>
+<ol start=5>
   <li>Create a table calculating profit per customer.</li>
   <li>Who are our top 5 most profitable customers?</li>
   <li>Who are our 5 least profitable customers?</li>
