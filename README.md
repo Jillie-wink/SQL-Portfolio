@@ -14,22 +14,23 @@ Attached is the SQL file I created to analyze product and customer data.</p>
 <div></div>
 <h2>Product Analysis</h2>
 <ol>
-  <li>Which products should we order more of? </li>
-  <li>Which products should we order less of? </li>
-  <li>What are our 10 highest performing products?</li>
+  <li>Which products should we order more of or less of? </li>
+  <li>What are our top 10 overstocked products? </li>
+  <li>What are our top 10 understocked products?</li>
+  <li>What is the product performance of each of our products?</li>
+  <li>What are our top 10 performing products?</li>
   <li>Which 10 products should we prioritize restocking?</li>
 </ol>
 <div></div>
 <h2>Customer Analysis</h2>
-<ol start=5>
-  <li>Create a table calculating profit per customer.</li>
-  <li>Who are our top 5 most profitable customers?</li>
-  <li>Who are our 5 least profitable customers?</li>
+<ol start=7>
+  <li>What are our profits per customer?</li>
+  <li>What is the mailing information for our top 5 customers?</li>
   <li>What is the average lifetime value (LTV) of a customer?</li>
 </ol>
 <div></div>
 <h2>Data Visualization</h2>
-<h4>Q1: Which products should we order more of?</h4>
+<h4>Q3: What are our top 10 understocked products?</h4>
 
 | **Product Code** | **Product Name** | **Relative Demand** |
 |---|---|---|
